@@ -20,7 +20,9 @@ class CustomOAuth2UserService(
         val delegate = DefaultOAuth2UserService()
         val oAuth2User = delegate.loadUser(userRequest)
 
+        // 로그인 진행중인 서비스를 구분하는 코드
         val registrationId = userRequest.clientRegistration.registrationId;
+
         val userNameAttributeName =
             userRequest.clientRegistration.providerDetails
                 .userInfoEndpoint.userNameAttributeName
@@ -31,6 +33,7 @@ class CustomOAuth2UserService(
             oAuth2User.attributes
         )
 
+        // 로그인이 성공하면 사용자 정보를 저장하거나 업데이트한다.
         val user = saveOrUpdate(attributes)
 
         return DefaultOAuth2User(
